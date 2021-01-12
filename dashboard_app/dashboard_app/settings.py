@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'dashboard_app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django_dashboard_db',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'dashboard_db',
+        'PORT': '3306',  # default port of mysql
     }
 }
 
