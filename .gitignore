@@ -164,4 +164,4 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-dashboard_app/.dbdata/*
+dashboard_app/dashboard_app/.dbdata/
