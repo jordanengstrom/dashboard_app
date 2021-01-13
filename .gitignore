@@ -163,3 +163,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+
+dashboard_app/.dbdata
