@@ -165,3 +165,4 @@ pnpm-debug.log*
 *.sw?
 
 dashboard_app/dashboard_app/.dbdata/
+dashboard_app/.dbdata/
