@@ -3,6 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import User
 from .serializers import UserSerializer
+from .authentication import generate_access_token
+from pprint import pprint
 
 
 @api_view(['POST'])
@@ -19,9 +21,8 @@ def register(request):
 
 @api_view(['POST'])
 def login(request):
-    email = request.data.get('email')
-    password = request.data.get('password')
-
+    email = request.data['email']
+    password = request.data['password']
     user = User.objects.filter(email=email).first()
 
     if user is None:
@@ -30,7 +31,13 @@ def login(request):
     if not user.check_password(password):
         raise exceptions.AuthenticationFailed('Incorrect password')
 
-    return Response('success')
+    token = generate_access_token(user)
+    data = {
+        'jwt': token
+    }
+    response = Response(data=data)
+    response.set_cookie(key='jwt', value=token, httponly=True)
+    return response
 
 
 @api_view(['GET'])
