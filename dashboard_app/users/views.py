@@ -1,6 +1,7 @@
 from rest_framework import exceptions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from .models import User
 from .serializers import UserSerializer
 from .authentication import generate_access_token
@@ -38,6 +39,16 @@ def login(request):
     response = Response(data=data)
     response.set_cookie(key='jwt', value=token, httponly=True)
     return response
+
+
+class AuthenticatedUser(APIView):
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+
+        return Response({
+            'data': serializer.data
+        })
 
 
 @api_view(['GET'])
