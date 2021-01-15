@@ -13,19 +13,19 @@ def generate_access_token(user):
         'iat': datetime.datetime.utcnow()
     }
 
-    return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
+    return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
 
 class JWTAuthentication(BaseAuthentication):
 
     def authenticate(self, request):
-        token = request.COOKIES.get('jwt')
+        encoded_jwt = request.COOKIES.get('jwt')
 
-        if not token:
+        if not encoded_jwt:
             return None
 
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+            payload = jwt.decode(encoded_jwt, settings.SECRET_KEY, algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
             raise exceptions.AuthenticationFailed('unauthenticated')
 
