@@ -11,6 +11,7 @@ from .authentication import generate_access_token, JWTAuthentication
 @api_view(['POST'])
 def register(request):
     data = request.data
+
     if data['password'] != data['password_confirm']:
         raise exceptions.APIException('Passwords do not match!')
 
@@ -22,22 +23,25 @@ def register(request):
 
 @api_view(['POST'])
 def login(request):
-    email = request.data['email']
-    password = request.data['password']
+    email = request.data.get('email')
+    password = request.data.get('password')
+
     user = User.objects.filter(email=email).first()
 
     if user is None:
         raise exceptions.AuthenticationFailed('User not found!')
 
     if not user.check_password(password):
-        raise exceptions.AuthenticationFailed('Incorrect password')
+        raise exceptions.AuthenticationFailed('Incorrect Password!')
+
+    response = Response()
 
     token = generate_access_token(user)
-    data = {
+    response.set_cookie(key='jwt', value=token, httponly=True)
+    response.data = {
         'jwt': token
     }
-    response = Response(data=data)
-    response.set_cookie(key='jwt', value=token, httponly=True)
+
     return response
 
 
