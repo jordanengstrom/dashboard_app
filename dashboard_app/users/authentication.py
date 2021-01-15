@@ -13,7 +13,7 @@ def generate_access_token(user):
         'iat': datetime.datetime.utcnow()
     }
 
-    return jwt.encode(payload=payload, key=settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
+    return jwt.encode(payload=payload, key=settings.SECRET_KEY, algorithm='HS256').encode('utf-8')
 
 
 class JWTAuthentication(BaseAuthentication):
