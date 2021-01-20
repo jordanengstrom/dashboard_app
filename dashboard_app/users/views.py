@@ -53,6 +53,8 @@ def logout(_):
         'message': 'Success'
     }
 
+    return response
+
 
 class AuthenticatedUser(APIView):
     authentication_classes = [JWTAuthentication]
