@@ -34,4 +34,5 @@ class JWTAuthentication(BaseAuthentication):
         if user is None:
             raise exceptions.AuthenticationFailed('User not found!')
 
-        return (user, None)
+        assert isinstance(user, object)
+        return [user, None]
