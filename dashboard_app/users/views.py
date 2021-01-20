@@ -1,4 +1,4 @@
-from rest_framework import exceptions, viewsets
+from rest_framework import exceptions, viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -94,7 +94,13 @@ class RoleViewSet(viewsets.ViewSet):
         pass
 
     def create(self, request):
-        pass
+        serializer = RoleSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({
+            'data': serializer.data
+        }, status=status.HTTP_201_CREATED)
 
     def update(self, request, pk=None):
         pass
