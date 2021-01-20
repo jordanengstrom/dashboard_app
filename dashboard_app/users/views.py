@@ -1,4 +1,4 @@
-from rest_framework import exceptions
+from rest_framework import exceptions, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -79,9 +79,22 @@ class PermissionAPIView(APIView):
             'data': serializer.data
         })
 
-# No longer needed
-# @api_view(['GET'])
-# def users_view(request):
-#     users = User.objects.all()
-#     serializer = UserSerializer(users, many=True)
-#     return Response(serializer.data)
+
+class RoleViewSet(viewsets.ViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        pass
+
+    def retrieve(self, request, pk=None):
+        pass
+
+    def create(self, request):
+        pass
+
+    def update(self, request, pk=None):
+        pass
+
+    def destroy(self, request, pk=None):
+        pass
