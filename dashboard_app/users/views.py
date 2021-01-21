@@ -122,7 +122,8 @@ class RoleViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class UserGenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.RetrieveModelMixin):
+class UserGenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.RetrieveModelMixin,
+                         mixins.CreateModelMixin):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
@@ -133,3 +134,6 @@ class UserGenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.
             return Response({'data': self.retrieve(request, pk).data})
 
         return Response({'data': self.list(request).data})
+
+    def post(self, request):
+        return Response({'data': self.create(request).data})
