@@ -123,7 +123,7 @@ class RoleViewSet(viewsets.ViewSet):
 
 
 class UserGenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                         mixins.CreateModelMixin):
+                         mixins.CreateModelMixin, mixins.UpdateModelMixin):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
@@ -137,3 +137,6 @@ class UserGenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.
 
     def post(self, request):
         return Response({'data': self.create(request).data})
+
+    def put(self, request, pk=None):
+        return Response({'data': self.update(request, pk).data})
