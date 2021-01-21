@@ -91,7 +91,9 @@ class RoleViewSet(viewsets.ViewSet):
         })
 
     def retrieve(self, request, pk=None):
-        pass
+        role = Role.objects.get(id=pk)
+        serializer = RoleSerializer(role)
+        return Response({'data': serializer.data})
 
     def create(self, request):
         serializer = RoleSerializer(data=request.data)
