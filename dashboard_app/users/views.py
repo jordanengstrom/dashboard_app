@@ -105,7 +105,11 @@ class RoleViewSet(viewsets.ViewSet):
         }, status=status.HTTP_201_CREATED)
 
     def update(self, request, pk=None):
-        pass
+        role = Role.objects.get(id=pk)
+        serializer = RoleSerializer(instance=role, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'data': serializer.data}, status=status.HTTP_202_ACCEPTED)
 
     def destroy(self, request, pk=None):
         pass
