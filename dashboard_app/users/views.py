@@ -84,18 +84,21 @@ class RoleViewSet(viewsets.ViewSet):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def list(self, request):
+    @staticmethod
+    def list(request):
         serializer = RoleSerializer(Role.objects.all(), many=True)
         return Response({
             'data': serializer.data
         })
 
-    def retrieve(self, request, pk=None):
+    @staticmethod
+    def retrieve(request, pk=None):
         role = Role.objects.get(id=pk)
         serializer = RoleSerializer(role)
         return Response({'data': serializer.data})
 
-    def create(self, request):
+    @staticmethod
+    def create(request):
         serializer = RoleSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -104,14 +107,16 @@ class RoleViewSet(viewsets.ViewSet):
             'data': serializer.data
         }, status=status.HTTP_201_CREATED)
 
-    def update(self, request, pk=None):
+    @staticmethod
+    def update(request, pk=None):
         role = Role.objects.get(id=pk)
         serializer = RoleSerializer(instance=role, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'data': serializer.data}, status=status.HTTP_202_ACCEPTED)
 
-    def destroy(self, request, pk=None):
+    @staticmethod
+    def destroy(request, pk=None):
         role = Role.objects.get(id=pk)
         role.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
